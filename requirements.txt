@@ -1,0 +1,2 @@
+# The Colab pipeline installs pinned training dependencies automatically.
+# This file is intentionally minimal for the source repository.

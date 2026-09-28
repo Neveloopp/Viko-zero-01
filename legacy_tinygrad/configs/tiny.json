@@ -1,0 +1,29 @@
+{
+  "name": "tiny",
+  "model": {
+    "vocab_size": 261,
+    "context": 256,
+    "dim": 192,
+    "heads": 6,
+    "layers": 4,
+    "ff_dim": 768,
+    "dropout": 0.05
+  },
+  "train": {
+    "batch_size": 4,
+    "steps": 15000,
+    "learning_rate": 0.0004,
+    "weight_decay": 0.01,
+    "save_every": 250,
+    "log_every": 10,
+    "seed": 1337
+  },
+  "generate": {
+    "max_new_tokens": 180,
+    "temperature": 0.8,
+    "top_k": 40,
+    "top_p": 0.92,
+    "repetition_penalty": 1.1,
+    "history_turns": 5
+  }
+}

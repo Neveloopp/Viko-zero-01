@@ -1,0 +1,55 @@
+#!/data/data/com.termux/files/usr/bin/bash
+set -e
+cd "$(dirname "$0")"
+
+CMD="${1:-help}"
+PRESET="${2:-base}"
+
+config_for() {
+  case "$1" in
+    tiny|base|heavy) echo "configs/$1.json" ;;
+    *.json) echo "$1" ;;
+    *) echo "configs/base.json" ;;
+  esac
+}
+
+case "$CMD" in
+  train)
+    shift
+    PRESET="${1:-base}"
+    if [ "$#" -gt 0 ]; then shift; fi
+    CFG="$(config_for "$PRESET")"
+    python train.py --config "$CFG" "$@"
+    ;;
+  chat)
+    shift
+    PRESET="${1:-base}"
+    if [ "$#" -gt 0 ]; then shift; fi
+    CFG="$(config_for "$PRESET")"
+    python chat.py --config "$CFG" "$@"
+    ;;
+  info)
+    CFG="$(config_for "$PRESET")"
+    python inspect_model.py --config "$CFG"
+    ;;
+  build-data)
+    python build_dataset.py
+    ;;
+  help|*)
+    cat <<'EOF'
+VikoZero
+
+Uso:
+  ./viko train tiny
+  ./viko train base
+  ./viko train heavy
+  ./viko train base --resume
+  ./viko chat base
+  ./viko info base
+  ./viko build-data
+
+También puedes pasar una ruta JSON:
+  ./viko train configs/base.json
+EOF
+    ;;
+esac
